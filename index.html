@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n8n Email Automation Studio - Live Workflow</title>
+
+    <!-- Démo technique : n8n Email Automation Studio
+         Code fourni à titre éducatif uniquement.
+         © 2025 – Aucun lien avec Axiorix SA -->
+
+    <!-- Lien vers le fichier CSS externe -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Import de la police Inter depuis Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- En-tête de la page -->
+    <div class="header">
+        <div class="header-content">
+            <div class="header-text">
+                <h1>🚀 n8n Email Automation Studio</h1>
+                <p class="subtitle">Workflow d'automatisation intelligent • Traitement IA en temps réel</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteneur principal -->
+    <div class="container">
+        <!-- Barre latérale avec les emails -->
+        <div class="sidebar">
+            <h3>📧 Boîte de réception</h3>
+
+            <!-- Exemple d'emails pour déclencher le workflow -->
+            <div class="email-item" onclick="processEmail('devis', 'Sarah Martin', 'Demande de devis cuisine complète', 'Bonjour, nous aimerions rénover notre cuisine de 25m². Pouvez-vous nous faire un devis détaillé ?')">
+                <div class="email-header">
+                    <div class="email-icon">🏠</div>
+                    <div class="email-from">Sarah Martin</div>
+                </div>
+                <div class="email-subject">Demande de devis cuisine complète</div>
+                <div class="email-time">Il y a 5min</div>
+            </div>
+
+            <div class="email-item" onclick="processEmail('livraison', 'Thomas Dubois', 'Suivi commande #CMD-2024-1158', 'Bonjour, je voudrais connaître le statut de ma commande passée la semaine dernière.')">
+                <div class="email-header">
+                    <div class="email-icon">📦</div>
+                    <div class="email-from">Thomas Dubois</div>
+                </div>
+                <div class="email-subject">Suivi commande #CMD-2024-1158</div>
+                <div class="email-time">Il y a 12min</div>
+            </div>
+
+            <div class="email-item" onclick="processEmail('facturation', 'Marie Leroy', 'Facture juin 2024 introuvable', 'Je ne retrouve pas ma facture du mois de juin. Pourriez-vous me la renvoyer ?')">
+                <div class="email-header">
+                    <div class="email-icon">📄</div>
+                    <div class="email-from">Marie Leroy</div>
+                </div>
+                <div class="email-subject">Facture juin 2024 introuvable</div>
+                <div class="email-time">Il y a 18min</div>
+            </div>
+
+            <div class="email-item" onclick="processEmail('support', 'Jean Moreau', 'Question garantie produit', 'J\'ai acheté un produit il y a 8 mois et il présente un défaut. Comment faire jouer la garantie ?')">
+                <div class="email-header">
+                    <div class="email-icon">⚙️</div>
+                    <div class="email-from">Jean Moreau</div>
+                </div>
+                <div class="email-subject">Question garantie produit</div>
+                <div class="email-time">Il y a 25min</div>
+            </div>
+        </div>
+
+        <!-- Zone de workflow -->
+        <div class="workflow-canvas">
+            <div class="canvas-grid"></div>
+
+            <div class="workflow-nodes">
+                <!-- Nœuds du workflow -->
+                <div class="node" id="node-1">
+                    <div class="node-status">⏸️</div>
+                    <div class="node-icon">📧</div>
+                    <div class="node-title">Email Trigger</div>
+                    <div class="node-subtitle">Réception automatique des emails entrants</div>
+                </div>
+
+                <div class="node" id="node-2">
+                    <div class="node-status">⏸️</div>
+                    <div class="node-icon">🧠</div>
+                    <div class="node-title">AI Classifier</div>
+                    <div class="node-subtitle">Classification intelligente par IA</div>
+                </div>
+
+                <div class="node" id="node-3">
+                    <div class="node-status">⏸️</div>
+                    <div class="node-icon">✍️</div>
+                    <div class="node-title">Response Gen</div>
+                    <div class="node-subtitle">Génération de réponse personnalisée</div>
+                </div>
+
+                <div class="node" id="node-4">
+                    <div class="node-status">⏸️</div>
+                    <div class="node-icon">📤</div>
+                    <div class="node-title">Send Email</div>
+                    <div class="node-subtitle">Envoi automatique de la réponse</div>
+                </div>
+            </div>
+
+            <!-- Connexions entre les nœuds -->
+            <div class="connection connection-1" id="connection-1"></div>
+            <div class="connection connection-2" id="connection-2"></div>
+            <div class="connection connection-3" id="connection-3"></div>
+
+            <!-- Panneau de traitement -->
+            <div class="processing-panel" id="processingPanel">
+                <div class="processing-title">
+                    <div class="processing-spinner"></div>
+                    <span id="processingTitle">Traitement en cours...</span>
+                </div>
+                <div class="processing-content" id="processingContent">
+                    Initialisation du workflow...
+                </div>
+            </div>
+
+            <!-- Panneau des statistiques -->
+            <div class="stats-panel">
+                <div class="stats-title">
+                    📊 Statistiques Temps Réel
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="processedCount">847</div>
+                        <div class="stat-label">Emails traités</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">98.7%</div>
+                        <div class="stat-label">Précision IA</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="responseTime">1.8s</div>
+                        <div class="stat-label">Temps moyen</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Disponibilité</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lien vers le fichier JavaScript externe -->
+    <script src="script.js"></script>
+</body>
+</html>
