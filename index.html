@@ -3,154 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>n8n Email Automation Studio - Live Workflow</title>
+    <title>Diagnostic IA Express – Évaluation du Potentiel d'Automatisation</title>
+    <meta name="description" content="Évaluez votre potentiel d'automatisation avec ce diagnostic express. Découvrez comment optimiser vos processus en 3 minutes.">
 
-    <!-- Démo technique : n8n Email Automation Studio
+    <!-- Import de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Démo technique : Diagnostic IA Express
          Code fourni à titre éducatif uniquement.
-         © 2025 – Aucun lien avec Axiorix SA -->
+         © 2025 – Aucun lien avec une entreprise spécifique -->
 
-    <!-- Lien vers le fichier CSS externe -->
+    <!-- Lien vers le fichier CSS -->
     <link rel="stylesheet" href="style.css">
-
-    <!-- Import de la police Inter depuis Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body>
-    <!-- En-tête de la page -->
-    <div class="header">
-        <div class="header-content">
-            <div class="header-text">
-                <h1>🚀 n8n Email Automation Studio</h1>
-                <p class="subtitle">Workflow d'automatisation intelligent • Traitement IA en temps réel</p>
+<body class="bg-gradient-to-b from-gray-900 to-black text-white min-h-screen pb-6">
+    <!-- En-tête -->
+    <div class="border-b border-gray-800 bg-gray-900/50 backdrop-blur">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center text-yellow-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg font-semibold">Diagnostic IA Express</h1>
+                    <p class="text-gray-400 text-sm">Évaluation en 3 minutes</p>
+                </div>
+            </div>
+            <button onclick="resetDiagnostic()" id="resetBtn" class="text-gray-400 hover:text-white text-sm hidden">
+                Recommencer
+            </button>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div id="questionView" class="max-w-2xl mx-auto px-6 py-12">
+        <!-- Barre de progression -->
+        <div class="mb-8">
+            <div class="flex justify-between text-sm text-gray-400 mb-2">
+                <span id="progressText">Question 1 sur 5</span>
+                <span id="progressPercent">20%</span>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-2">
+                <div id="progressBar" class="bg-gradient-to-r from-yellow-400 to-yellow-600 h-2 rounded-full transition-all duration-500" style="width: 20%"></div>
+            </div>
+        </div>
+
+        <!-- Conteneur de la question -->
+        <div class="bg-gray-800/50 rounded-lg p-8 border border-gray-700">
+            <div class="flex items-center mb-6">
+                <div id="questionIcon" class="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center text-yellow-400 mr-4">
+                    <!-- Icône de la question -->
+                </div>
+                <div>
+                    <h3 id="questionTitle" class="text-sm font-medium text-gray-400 flex items-center">
+                        <span id="questionTitleText"></span>
+                        <span id="questionSource" class="ml-2 tooltip" data-tooltip="">
+                            <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                            </svg>
+                        </span>
+                    </h3>
+                    <h2 id="questionText" class="text-xl font-semibold"></h2>
+                </div>
+            </div>
+            <div id="optionsContainer" class="space-y-3">
+                <!-- Les options seront insérées ici -->
+            </div>
+        </div>
+
+        <!-- Message d'introduction -->
+        <div id="introMessage" class="mt-6 text-center text-gray-400 text-sm">
+            <p>Vos concurrents se précipitent sur l'IA.</p>
+            <p class="text-yellow-400">Vous hésitez ? Évaluons d'abord votre potentiel.</p>
+        </div>
+    </div>
+
+    <!-- Bannière de progression fixe (cachée par défaut) -->
+    <div id="progressBanner" class="fixed-banner bg-gray-900/90 hidden">
+        <div class="max-w-4xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-6">
+                    <!-- Mini-jauge -->
+                    <div class="relative w-12 h-12">
+                        <svg class="w-12 h-12 transform -rotate-90" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" stroke="#374151" stroke-width="8" fill="none"/>
+                            <circle id="bannerGauge" cx="50" cy="50" r="45" stroke="#fbbf24" stroke-width="8" fill="none"
+                                    stroke-linecap="round" stroke-dasharray="0 314" class="transition-all duration-1000"/>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span id="bannerScore" class="text-xs font-bold text-yellow-400">0</span>
+                        </div>
+                    </div>
+
+                    <!-- KPI en temps réel -->
+                    <div class="flex space-x-4 text-sm">
+                        <div>
+                            <span class="text-gray-400">Temps:</span>
+                            <span id="bannerTime" class="text-white font-semibold">0h/sem</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-400">Économies:</span>
+                            <span id="bannerValue" class="text-green-400 font-semibold">CHF 0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bouton CTA -->
+                <button id="bannerCTA" class="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-6 py-2 rounded-lg transition-all animate-pulse-cta">
+                    Calculer mon plan
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Conteneur principal -->
-    <div class="container">
-        <!-- Barre latérale avec les emails -->
-        <div class="sidebar">
-            <h3>📧 Boîte de réception</h3>
-
-            <!-- Exemple d'emails pour déclencher le workflow -->
-            <div class="email-item" onclick="processEmail('devis', 'Sarah Martin', 'Demande de devis cuisine complète', 'Bonjour, nous aimerions rénover notre cuisine de 25m². Pouvez-vous nous faire un devis détaillé ?')">
-                <div class="email-header">
-                    <div class="email-icon">🏠</div>
-                    <div class="email-from">Sarah Martin</div>
+    <!-- Vue des résultats (cachée par défaut) -->
+    <div id="resultsView" class="max-w-4xl mx-auto px-6 py-12 hidden">
+        <!-- Score principal avec jauge -->
+        <div class="text-center mb-12">
+            <div class="relative inline-block mb-6">
+                <!-- Jauge circulaire -->
+                <svg class="w-40 h-40" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" stroke="#374151" stroke-width="6" fill="none"/>
+                    <circle id="mainGauge" cx="50" cy="50" r="45" stroke="url(#gradient)" stroke-width="6" fill="none"
+                            stroke-linecap="round" stroke-dasharray="0 314" class="gauge-fill"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#fbbf24"/>
+                            <stop offset="100%" style="stop-color:#f59e0b"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <span id="automationScore" class="text-4xl font-bold text-white">0</span>
                 </div>
-                <div class="email-subject">Demande de devis cuisine complète</div>
-                <div class="email-time">Il y a 5min</div>
             </div>
 
-            <div class="email-item" onclick="processEmail('livraison', 'Thomas Dubois', 'Suivi commande #CMD-2024-1158', 'Bonjour, je voudrais connaître le statut de ma commande passée la semaine dernière.')">
-                <div class="email-header">
-                    <div class="email-icon">📦</div>
-                    <div class="email-from">Thomas Dubois</div>
+            <h2 class="text-3xl font-bold mb-4 animate-fade-in-1">Votre Potentiel d'Automatisation</h2>
+            <p class="text-xl text-gray-300 mb-8 animate-fade-in-2">
+                Économies réalisables : <span id="weeklyHours" class="text-yellow-400 font-semibold">0h/semaine</span>
+            </p>
+        </div>
+
+        <!-- Résultats détaillés -->
+        <div class="grid lg:grid-cols-2 gap-8 mb-12">
+            <!-- Gains de temps -->
+            <div class="bg-gray-800/50 rounded-lg p-6 border border-gray-700">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12,6 12,12 16,14"></polyline>
+                    </svg>
+                    Gains de Temps
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-gray-300">Par semaine</p>
+                        <p id="weeklyHoursDetail" class="text-2xl font-bold text-white">0 heures</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-300">Par année</p>
+                        <p id="yearlyHours" class="text-2xl font-bold text-white">0 heures</p>
+                    </div>
                 </div>
-                <div class="email-subject">Suivi commande #CMD-2024-1158</div>
-                <div class="email-time">Il y a 12min</div>
             </div>
 
-            <div class="email-item" onclick="processEmail('facturation', 'Marie Leroy', 'Facture juin 2024 introuvable', 'Je ne retrouve pas ma facture du mois de juin. Pourriez-vous me la renvoyer ?')">
-                <div class="email-header">
-                    <div class="email-icon">📄</div>
-                    <div class="email-from">Marie Leroy</div>
+            <!-- Valeur économique -->
+            <div class="bg-gray-800/50 rounded-lg p-6 border border-gray-700">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <polyline points="23,6 13.5,15.5 8.5,10.5 1,18"></polyline>
+                        <polyline points="17,6 23,6 23,12"></polyline>
+                    </svg>
+                    Valeur Économique
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-gray-300">Économies annuelles</p>
+                        <p id="yearlyValue" class="text-2xl font-bold text-green-400">CHF 0</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-300 text-sm tooltip" data-tooltip="Selon l'étude Teamleader 2024 sur les coûts PME Suisse">
+                            Basé sur CHF 60/heure (coût moyen PME Suisse)
+                            <svg class="w-4 h-4 inline ml-1 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                            </svg>
+                        </p>
+                    </div>
                 </div>
-                <div class="email-subject">Facture juin 2024 introuvable</div>
-                <div class="email-time">Il y a 18min</div>
-            </div>
-
-            <div class="email-item" onclick="processEmail('support', 'Jean Moreau', 'Question garantie produit', 'J\'ai acheté un produit il y a 8 mois et il présente un défaut. Comment faire jouer la garantie ?')">
-                <div class="email-header">
-                    <div class="email-icon">⚙️</div>
-                    <div class="email-from">Jean Moreau</div>
-                </div>
-                <div class="email-subject">Question garantie produit</div>
-                <div class="email-time">Il y a 25min</div>
             </div>
         </div>
 
-        <!-- Zone de workflow -->
-        <div class="workflow-canvas">
-            <div class="canvas-grid"></div>
-
-            <div class="workflow-nodes">
-                <!-- Nœuds du workflow -->
-                <div class="node" id="node-1">
-                    <div class="node-status">⏸️</div>
-                    <div class="node-icon">📧</div>
-                    <div class="node-title">Email Trigger</div>
-                    <div class="node-subtitle">Réception automatique des emails entrants</div>
-                </div>
-
-                <div class="node" id="node-2">
-                    <div class="node-status">⏸️</div>
-                    <div class="node-icon">🧠</div>
-                    <div class="node-title">AI Classifier</div>
-                    <div class="node-subtitle">Classification intelligente par IA</div>
-                </div>
-
-                <div class="node" id="node-3">
-                    <div class="node-status">⏸️</div>
-                    <div class="node-icon">✍️</div>
-                    <div class="node-title">Response Gen</div>
-                    <div class="node-subtitle">Génération de réponse personnalisée</div>
-                </div>
-
-                <div class="node" id="node-4">
-                    <div class="node-status">⏸️</div>
-                    <div class="node-icon">📤</div>
-                    <div class="node-title">Send Email</div>
-                    <div class="node-subtitle">Envoi automatique de la réponse</div>
-                </div>
+        <!-- Graphique avec animation -->
+        <div class="bg-gray-800/30 rounded-lg p-6 border border-gray-700 mb-12">
+            <h3 class="text-xl font-semibold mb-6 text-center">Potentiel d'Économie par Activité</h3>
+            <div id="chartContainer" class="space-y-6">
+                <!-- Les barres du graphique seront insérées ici -->
             </div>
+        </div>
 
-            <!-- Connexions entre les nœuds -->
-            <div class="connection connection-1" id="connection-1"></div>
-            <div class="connection connection-2" id="connection-2"></div>
-            <div class="connection connection-3" id="connection-3"></div>
+        <!-- CTA unique -->
+        <div class="text-center bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg p-8 border border-gray-600">
+            <h3 class="text-2xl font-bold mb-4">Prêt à Libérer Ce Potentiel ?</h3>
+            <p class="text-gray-300 mb-6">
+                Découvrez comment transformer ces heures perdues en avantage concurrentiel.
+            </p>
+            <button onclick="calculatePlan()" class="inline-flex items-center bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-8 py-3 rounded-lg transition-all animate-pulse-cta">
+                Calculer mon plan personnalisé
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <polyline points="9,18 15,12 9,6"></polyline>
+                </svg>
+            </button>
+        </div>
 
-            <!-- Panneau de traitement -->
-            <div class="processing-panel" id="processingPanel">
-                <div class="processing-title">
-                    <div class="processing-spinner"></div>
-                    <span id="processingTitle">Traitement en cours...</span>
-                </div>
-                <div class="processing-content" id="processingContent">
-                    Initialisation du workflow...
-                </div>
-            </div>
-
-            <!-- Panneau des statistiques -->
-            <div class="stats-panel">
-                <div class="stats-title">
-                    📊 Statistiques Temps Réel
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-number" id="processedCount">847</div>
-                        <div class="stat-label">Emails traités</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">98.7%</div>
-                        <div class="stat-label">Précision IA</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" id="responseTime">1.8s</div>
-                        <div class="stat-label">Temps moyen</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">24/7</div>
-                        <div class="stat-label">Disponibilité</div>
-                    </div>
-                </div>
-            </div>
+        <!-- Sources et pied de page -->
+        <div class="mt-8 text-center text-xs text-gray-500">
+            <p>Données basées sur les études McKinsey, HubSpot 2024, et Teamleader</p>
+        </div>
+        <div class="mt-6 pt-6 border-t border-gray-800 text-center text-sm text-gray-500">
+            <p>© 2025 – Tous droits réservés</p>
         </div>
     </div>
 
-    <!-- Lien vers le fichier JavaScript externe -->
+    <!-- Pied de page pour les questions -->
+    <footer id="questionFooter" class="border-t border-gray-800 bg-gray-900/50">
+        <div class="max-w-2xl mx-auto px-6 py-4 text-center text-sm text-gray-500">
+            <p>© 2025 – Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <!-- Lien vers le fichier JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
